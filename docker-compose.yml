@@ -20,3 +20,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  prometheus:
+    image: prom/prometheus:v3.15.1
+    volumes:
+      - ./prometheus:/etc/prometheus:ro
+    ports:
+      - "9090:9090"

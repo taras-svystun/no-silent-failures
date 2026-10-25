@@ -1,6 +1,7 @@
 import os
 
-from sqlalchemy import Boolean, String, create_engine
+from sqlalchemy import Boolean, String, create_engine, text
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 
 # pool_pre_ping: test a pooled connection before use, so a DB restart
@@ -28,3 +29,12 @@ class Task(Base):
 def get_session():
     with Session(engine) as session:
         yield session
+
+
+def db_is_up() -> bool:
+    try:
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+    except SQLAlchemyError:
+        return False
+    return True

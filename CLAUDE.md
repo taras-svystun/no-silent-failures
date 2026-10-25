@@ -12,6 +12,7 @@ A small FastAPI + Postgres service with Prometheus, Grafana and Telegram alerts,
 Taras is learning production monitoring and integration testing. The AI writes the code; Taras owns the ideas and must be able to explain every piece.
 
 - Explain each new piece at the level of its mechanism: the idea, how the code works step by step, and why it behaves as it does.
+- Explanations must be truly simple; length is fine, confusion is not. For each piece: (1) the problem it solves, as a small everyday story; (2) what goes wrong without it, as a concrete scene; (3) only then the technical name and the one line of code. Define every word a beginner would not know (PID, signal, pool, scrape) before using it. One idea per paragraph. Test: could a smart 15-year-old retell it?
 - Open each step with a riddle or a prediction for Taras to make, then reveal the answer.
 - Keep it small: every file must earn its place. If a part can be thrown away without losing an interview claim or a mechanism, it goes.
 - The repo is public. The Telegram bot token and chat id live only in `.env` (git-ignored); `.env.example` holds placeholders.

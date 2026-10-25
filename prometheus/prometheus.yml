@@ -1,0 +1,8 @@
+global:
+  # Short for the demo; 15-60 s is common in production.
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: app
+    static_configs:
+      - targets: ["app:8000"]

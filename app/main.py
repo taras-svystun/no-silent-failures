@@ -1,15 +1,17 @@
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from pydantic import BaseModel, ConfigDict
-from sqlalchemy import select, text
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.db import Task, engine, get_session
+from app.db import Task, db_is_up, get_session
+from app.metrics import record_metrics
 
 app = FastAPI(title="no-silent-failures")
+app.middleware("http")(record_metrics)
 SessionDep = Annotated[Session, Depends(get_session)]
 
 
@@ -66,9 +68,11 @@ def delete_task(task_id: int, session: SessionDep):
 def health():
     # A health check that does not touch the DB would say "ok" while every
     # real request fails: a silent failure.
-    try:
-        with engine.connect() as conn:
-            conn.execute(text("SELECT 1"))
-    except SQLAlchemyError:
+    if not db_is_up():
         return JSONResponse(status_code=503, content={"status": "db down"})
     return {"status": "ok"}
+
+
+@app.get("/metrics")
+def metrics():
+    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
