@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      # Local throwaway DB: these are not secrets.
+      POSTGRES_USER: tasks
+      POSTGRES_PASSWORD: tasks
+      POSTGRES_DB: tasks
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "tasks"]
+      interval: 2s
+      retries: 15
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg://tasks:tasks@db:5432/tasks
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
