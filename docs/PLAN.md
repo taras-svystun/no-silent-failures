@@ -8,7 +8,7 @@ Build a FastAPI + Postgres service that starts with `docker compose up`, is scra
 
 - Full scope, nothing cut. Time (2-3 h) is the second priority.
 - Not a bag of tools: each part must be one the project cannot exist without. Each part below has a "why": what breaks without it.
-- The AI writes the code. Taras writes the PromQL queries (step 2) and drafts the interview story (step 7).
+- The AI writes the code and the PromQL. Taras must read and explain the PromQL (step 2) and drafts the interview story (step 7).
 - Each step opens with: a riddle, Taras's task, the AI's task. Both run in parallel; nobody blocks the other.
 - Alert `for:` is 30 s for the demo; the real-world value (about 5 min) sits next to it in a comment.
 - The repo stays public. Secrets live only in `.env`.
@@ -31,7 +31,7 @@ Each step ends with a checkpoint, a journal line, a commit and a push.
    Taras: create the Telegram bot, fill `.env`.
 2. **Metrics + Prometheus.** `/metrics` with request count, latency histogram, error count by endpoint and status; Prometheus scrapes it.
    Why: without numbers, failures are silent.
-   Taras: write the PromQL for request rate, error rate and p95 latency in the Prometheus UI.
+   Taras: read and explain the PromQL for request rate, error rate and p95 latency (changed on 2026-10-27: understanding over syntax; he gets queries from the AI when needed).
 3. **Grafana as code.** Provisioned datasource and dashboard JSON: request rate, p95, error rate, DB up/down.
    Why: humans read pictures faster than queries; "as code" means the dashboard survives a wiped volume.
 4. **Alerts → Telegram + `/chaos`.** Rules for high error rate, high p95, service down, DB down; Alertmanager sends to Telegram; `/chaos` makes 500s and slow responses.
