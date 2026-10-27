@@ -1,0 +1,7 @@
+apiVersion: 1
+
+providers:
+  - name: files
+    # Grafana loads every JSON file in this folder at start-up.
+    options:
+      path: /var/lib/grafana/dashboards
