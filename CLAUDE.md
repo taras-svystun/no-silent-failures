@@ -16,6 +16,8 @@ Taras is learning production monitoring and integration testing. The AI writes t
 - Teach before you test. Order in every step: the material from zero (assume Taras has never heard of it), a worked example he can run and see, then his task with exact actions (where to click, what to type, what he should see), and only then a riddle about what he just learned. Never a riddle or task on something not yet explained.
 - Close each step with a short quiz: simple questions on the most fundamental ideas, one idea each, no puzzles. Do not start the next step until the gaps it shows are explained again.
 - Tell each step as one story: every piece appears because the previous one needs it ("we did A; A needs B, so B; B causes problem C, so D"). No list of separate facts.
+- Teach for years, not for the interview: (1) one picture per idea, reused unchanged in later steps (a container is a small computer with numbered doors); (2) Taras predicts what will happen before he runs it; (3) he breaks it on purpose and sees the error himself; (4) recall, not rereading: quizzes ask him to say it from memory, and each quiz repeats 1-2 questions from earlier steps; (5) he says each idea back in one line, in his own words.
+- Simple language always: short sentences, everyday words. Complexity drives him away; a detail that is not needed is dropped.
 - Keep it small: every file must earn its place. If a part can be thrown away without losing an interview claim or a mechanism, it goes.
 - The repo is public. The Telegram bot token and chat id live only in `.env` (git-ignored); `.env.example` holds placeholders.
 
