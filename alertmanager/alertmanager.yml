@@ -1,0 +1,15 @@
+route:
+  receiver: telegram
+  group_by: [alertname]
+  # Demo values. In production: group_wait 30s, group_interval 5m, repeat_interval 4h.
+  group_wait: 10s
+  group_interval: 30s
+  repeat_interval: 1h
+
+receivers:
+  - name: telegram
+    telegram_configs:
+      # Files made by Docker Compose secrets from .env, so no secret is in git.
+      - bot_token_file: /run/secrets/telegram_bot_token
+        chat_id_file: /run/secrets/telegram_chat_id
+        send_resolved: true

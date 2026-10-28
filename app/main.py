@@ -1,3 +1,4 @@
+import time
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException
@@ -71,6 +72,21 @@ def health():
     if not db_is_up():
         return JSONResponse(status_code=503, content={"status": "db down"})
     return {"status": "ok"}
+
+
+@app.get("/chaos/error")
+def chaos_error():
+    # A real crash, not a polite HTTPException: the middleware must still
+    # count it as a 500, which is exactly what this proves.
+    raise RuntimeError("chaos: failing on purpose")
+
+
+@app.get("/chaos/slow")
+def chaos_slow(seconds: float = 1.0):
+    # A sync endpoint runs in a worker thread, so this sleep blocks only
+    # this request, not the whole server.
+    time.sleep(seconds)
+    return {"slept": seconds}
 
 
 @app.get("/metrics")

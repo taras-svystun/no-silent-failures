@@ -9,6 +9,7 @@ cp .env.example .env          # then fill in the Telegram bot token and chat id
 docker compose up -d --build  # app on http://localhost:8000 (API docs at /docs)
                               # Prometheus on http://localhost:9090
                               # Grafana on http://localhost:3000 (admin / admin, then "Skip")
+                              # Alertmanager on http://localhost:9093
 docker compose down           # stop everything
 ```
 
@@ -23,6 +24,18 @@ docker compose start db
 curl localhost:8000/metrics                               # raw metrics Prometheus scrapes
 open http://localhost:3000/d/service                      # the dashboard, refreshes every 5 s
 docker compose rm -sf grafana && docker compose up -d grafana  # wipe Grafana: the dashboard comes back from files
+```
+
+## Make an alert fire
+
+Each alert needs up to about a minute (30 s `for:`, plus the 1 m rate window for the chaos ones), then a Telegram message arrives.
+
+```sh
+while true; do curl -s localhost:8000/chaos/error >/dev/null; sleep 0.5; done  # HighErrorRate; Ctrl-C to stop
+while true; do curl -s localhost:8000/chaos/slow  >/dev/null; sleep 0.5; done  # HighLatency (each call sleeps 1 s)
+docker compose stop db   # DbDown;      docker compose start db  to resolve
+docker compose stop app  # ServiceDown; docker compose start app to resolve
+open http://localhost:9090/alerts   # pending -> firing, as Prometheus sees it
 ```
 
 ## Local dev

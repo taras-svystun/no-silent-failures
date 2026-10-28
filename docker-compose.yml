@@ -28,6 +28,17 @@ services:
     ports:
       - "9090:9090"
 
+  alertmanager:
+    image: prom/alertmanager:v0.34.1
+    volumes:
+      - ./alertmanager:/etc/alertmanager:ro
+    secrets:
+      - telegram_bot_token
+      - telegram_chat_id
+    ports:
+      # No login, and anyone here could silence alerts: this Mac only.
+      - "127.0.0.1:9093:9093"
+
   grafana:
     image: grafana/grafana:13.2.5
     volumes:
@@ -38,3 +49,11 @@ services:
       - "127.0.0.1:3000:3000"
     depends_on:
       - prometheus
+
+# Docker Compose reads these from .env and mounts each as a file in
+# /run/secrets/ of the services that list it.
+secrets:
+  telegram_bot_token:
+    environment: TELEGRAM_BOT_TOKEN
+  telegram_chat_id:
+    environment: TELEGRAM_CHAT_ID

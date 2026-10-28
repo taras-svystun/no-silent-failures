@@ -1,6 +1,16 @@
 global:
   # Short for the demo; 15-60 s is common in production.
   scrape_interval: 5s
+  # How often the alert rules are checked.
+  evaluation_interval: 5s
+
+rule_files:
+  - alerts.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["alertmanager:9093"]
 
 scrape_configs:
   - job_name: app

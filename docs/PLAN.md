@@ -20,7 +20,8 @@ Build a FastAPI + Postgres service that starts with `docker compose up`, is scra
 - **Label requests by route template** (`/tasks/{id}`), never the raw path (`/tasks/42`). Raw paths make a new time series per id and can kill Prometheus.
 - **DB up/down as a gauge the service sets on each scrape**, not a `postgres_exporter` container. One less service. Drawback accepted: if the service is down we cannot see the DB; the "service down" alert covers that case.
 - **Migrations run in the container entrypoint** (`alembic upgrade head && uvicorn`), not a separate migrate job. Drawback accepted: with several replicas they would race; we have one.
-- **Alertmanager's built-in Telegram receiver**, no relay bot. Open question for step 4: how the bot token and chat id get from `.env` into Alertmanager's config.
+- **Alertmanager's built-in Telegram receiver**, no relay bot. The token and chat id reach it as Docker Compose secrets made from `.env` (files in `/run/secrets/`, read with `bot_token_file` / `chat_id_file`), not by rewriting the config with a script. Alertmanager does not read env vars in its config.
+- **`/chaos` is two stateless endpoints** (`/chaos/error`, `/chaos/slow`): chaos lasts as long as someone calls them, so "stop chaos" is just stopping the loop. No on/off switch to forget.
 
 ## Steps
 
