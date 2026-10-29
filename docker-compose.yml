@@ -16,7 +16,8 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://tasks:tasks@db:5432/tasks
     ports:
-      - "8000:8000"
+      # 127.0.0.1: only this Mac, not everyone on the Wi-Fi (/chaos is here).
+      - "127.0.0.1:8000:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -26,7 +27,7 @@ services:
     volumes:
       - ./prometheus:/etc/prometheus:ro
     ports:
-      - "9090:9090"
+      - "127.0.0.1:9090:9090"
 
   alertmanager:
     image: prom/alertmanager:v0.34.1
