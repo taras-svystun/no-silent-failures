@@ -38,6 +38,14 @@ docker compose stop app  # ServiceDown; docker compose start app to resolve
 open http://localhost:9090/alerts   # pending -> firing, as Prometheus sees it
 ```
 
+## Demo: the whole chain in one command
+
+```sh
+./scripts/demo.sh   # about 2 min: chaos on -> HighErrorRate fires -> Telegram -> chaos off -> resolved -> Telegram
+```
+
+It exits with `FAILED: ...` if any step does not happen in time, or if a Telegram send fails.
+
 ## Local dev
 
 ```sh
