@@ -1,0 +1,15 @@
+name: tests
+
+on: push
+
+jobs:
+  pytest:
+    # GitHub's Ubuntu runners have Docker, so testcontainers can start Postgres.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12" # same as the Dockerfile
+      - run: pip install -r requirements-dev.txt
+      - run: pytest -v

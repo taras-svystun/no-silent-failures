@@ -42,4 +42,7 @@ open http://localhost:9090/alerts   # pending -> firing, as Prometheus sees it
 
 ```sh
 python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+.venv/bin/pytest -v   # needs Docker running: starts its own throwaway Postgres
 ```
+
+GitHub Actions runs the same `pytest` on every push (`.github/workflows/tests.yml`).

@@ -39,6 +39,7 @@ Each step ends with a checkpoint, a journal line, a commit and a push.
    Why: a dashboard nobody looks at is still a silent failure.
 5. **Tests + CI.** Unit tests for pure logic; integration tests on a real Postgres via testcontainers, running the real migration; GitHub Actions runs them on every push.
    Why: proves the service works before it ships, against the same database it runs on.
+   Changed on 2026-10-29: no separate unit tests. The service has almost no pure logic; the one branch worth a fast test (`/health` says 503 when the DB is down) fakes only `db_is_up`. All tests go through the real app on one real Postgres (about 2 s).
 6. **Demo script.** `scripts/demo.sh`: start the stack, fire `/chaos`, wait for the alert in Telegram, stop chaos, wait for "resolved".
 7. **Interview notes.** `docs/interview.md`: 30-second story, 5 questions with short answers, what Taras can and cannot claim.
    Include "who watches the watcher": if Prometheus or Alertmanager dies, all alerts go quiet; the answer is a dead man's switch (an always-firing alert checked from outside the stack). Not built here.
