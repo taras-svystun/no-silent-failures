@@ -56,6 +56,14 @@ def test_create_then_read_task(client):
     assert read.json() == {"id": task_id, "title": "buy skis", "done": False}
 
 
+def test_list_shows_only_this_tests_tasks(client):
+    client.post("/tasks", json={"title": "first"})
+    client.post("/tasks", json={"title": "second"})
+
+    titles = [task["title"] for task in client.get("/tasks").json()]
+    assert titles == ["first", "second"]
+
+
 def test_update_then_delete_task(client):
     task_id = client.post("/tasks", json={"title": "wax board"}).json()["id"]
 
