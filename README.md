@@ -44,7 +44,7 @@ open http://localhost:9090/alerts   # pending -> firing, as Prometheus sees it
 ./scripts/demo.sh   # about 2 min: chaos on -> HighErrorRate fires -> Telegram -> chaos off -> resolved -> Telegram
 ```
 
-It exits with `FAILED: ...` if any step does not happen in time, or if a Telegram send fails.
+It exits with `FAILED: ...` if any step does not happen in time, or as soon as Telegram refuses a message (try it: `TELEGRAM_BOT_TOKEN=123:broken docker compose up -d --force-recreate alertmanager && TELEGRAM_BOT_TOKEN=123:broken ./scripts/demo.sh`, then `docker compose up -d --force-recreate alertmanager` to put the real token back).
 
 ## Local dev
 
