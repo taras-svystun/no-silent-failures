@@ -11,3 +11,4 @@
 - **Integration test**: a test that runs the app against a real Postgres, so it catches what a fake database would hide (a broken migration, a wrong column).
 - **Fixture**: a pytest function that prepares something a test needs (the Postgres container, an empty table) and cleans it up after.
 - **CI** (continuous integration): GitHub runs the tests on its own machine on every push, so a broken change shows a red cross before anyone ships it.
+- **Dead man's switch**: an alert that always fires and is sent to a service outside the stack; when its messages stop, that outside service raises the alarm. It answers "who watches the watcher". Not built here.
