@@ -41,3 +41,4 @@ Each step ends with a checkpoint, a journal line, a commit and a push.
    Why: proves the service works before it ships, against the same database it runs on.
 6. **Demo script.** `scripts/demo.sh`: start the stack, fire `/chaos`, wait for the alert in Telegram, stop chaos, wait for "resolved".
 7. **Interview notes.** `docs/interview.md`: 30-second story, 5 questions with short answers, what Taras can and cannot claim.
+   Include "who watches the watcher": if Prometheus or Alertmanager dies, all alerts go quiet; the answer is a dead man's switch (an always-firing alert checked from outside the stack). Not built here.
